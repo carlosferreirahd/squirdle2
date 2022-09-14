@@ -4,9 +4,9 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
-      'background': '#2C3639',
-      'foreground': '#DCD7C9',
-      'link': '#A27B5C',
+      'background': '#0C3348',
+      'foreground': '#FFCC00',
+      'link': '#5EBDFC',
     },
   },
   variants: {
