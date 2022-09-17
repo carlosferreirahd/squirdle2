@@ -14,18 +14,20 @@ export function GuessingForm() {
       className="flex w-full gap-2"
       onSubmit={handleGuessSubmit}
     >
-      <input
-        className="h-14 w-full border border-solid border-[#DCDCDC] rounded p-4 text-xl"
-        type="text"
-        placeholder="Who's that Pokémon?"
-        ref={inputRef}
-      />
-      <button
-        className="bg-foreground rounded p-4 text-base font-semibold"
-        type="submit"
-      >
-        Submit
-      </button>
+      <div className="w-full relative">
+        <input
+          className="h-14 w-full border border-solid border-[#DCDCDC] rounded p-4 text-xl outline-none pr-24"
+          type="text"
+          placeholder="Who's that Pokémon?"
+          ref={inputRef}
+        />
+        <button
+          className="bg-foreground rounded-r p-4 text-base font-semibold absolute right-0 z-10 top-0 hover:bg-opacity-70"
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
     </form>
   );
 }
