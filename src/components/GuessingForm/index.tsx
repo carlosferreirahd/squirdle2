@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { AutoComplete } from "@components";
 
 export function GuessingForm() {
 
@@ -11,9 +12,10 @@ export function GuessingForm() {
 
   return (
     <form
-      className="flex w-full gap-2"
+      className="flex flex-col w-full gap-2"
       onSubmit={handleGuessSubmit}
     >
+
       <div className="w-full relative">
         <input
           className="h-14 w-full border border-solid border-[#DCDCDC] rounded p-4 text-xl outline-none pr-24"
@@ -28,6 +30,8 @@ export function GuessingForm() {
           Submit
         </button>
       </div>
+
+      <AutoComplete />
     </form>
   );
 }
