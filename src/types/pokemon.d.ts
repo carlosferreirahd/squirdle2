@@ -8,9 +8,4 @@ declare module '@squirtle2/pokemon' {
     weight: number;
   }
 
-  interface RawPokemonResponse {
-    name: string;
-    url: string;
-  }
-
 }

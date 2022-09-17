@@ -4,7 +4,6 @@ const alias = (path = 'src') => ({
   '@assets': `${path}/assets`,
   '@components': `${path}/components`,
   '@pages': `${path}/pages`,
-  '@services': `${path}/services`,
   '@types': `${path}/types`,
   '@utils': `${path}/utils`,
   '@providers': `${path}/providers`,
