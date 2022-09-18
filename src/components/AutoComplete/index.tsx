@@ -1,45 +1,27 @@
 import { AutoCompleteRow } from "@components";
+import { usePokemonStore } from "@providers";
+import { PokemonInfo } from "@squirtle2/pokemon";
 
 export function AutoComplete() {
 
+  const rowOptions = usePokemonStore((state) => state.autoCompleteOptions);
+
   return (
-    <div className="bg-[#FFFFFF] max-h-80 overflow-auto p-4 rounded flex flex-col gap-2">
-      <AutoCompleteRow
-        name="Lugia"
-        gen={2}
-        type1="Psychic"
-        type2="Flying"
-        height={5.2}
-        weight={216}
-        showBottomDivider={true}
-      />
-      <AutoCompleteRow
-        name="Lugia"
-        gen={2}
-        type1="Psychic"
-        type2="Flying"
-        height={5.2}
-        weight={216}
-        showBottomDivider={true}
-      />
-      <AutoCompleteRow
-        name="Lugia"
-        gen={2}
-        type1="Psychic"
-        type2="Flying"
-        height={5.2}
-        weight={216}
-        showBottomDivider={true}
-      />
-      <AutoCompleteRow
-        name="Zamazenta Hero of Many Battles"
-        gen={2}
-        type1="Psychic"
-        type2=""
-        height={5.2}
-        weight={216}
-        showBottomDivider={false}
-      />
-    </div>
+    rowOptions.length === 0 ? null : (
+      <div className="bg-[#FFFFFF] max-h-80 overflow-auto p-4 rounded flex flex-col gap-2">
+        {rowOptions.map((pokemon: PokemonInfo, index: number) => (
+          <AutoCompleteRow
+            key={pokemon.name}
+            name={pokemon.name}
+            gen={pokemon.gen}
+            type1={pokemon.type1}
+            type2={pokemon.type2}
+            height={pokemon.height}
+            weight={pokemon.weight}
+            showBottomDivider={index !== rowOptions.length - 1}
+          />
+        ))}
+      </div>
+    )
   );
 }

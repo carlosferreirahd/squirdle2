@@ -1,9 +1,10 @@
 declare module '@squirtle2/pokemon' {
 
   interface PokemonInfo {
-    gen: string;
+    name: string;
+    gen: number;
     type1: string;
-    type2: string | null;
+    type2: string;
     height: number;
     weight: number;
   }

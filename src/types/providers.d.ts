@@ -1,8 +1,10 @@
 declare module '@squirtle2/providers' {
 
   interface ZustandStore {
-    loading: boolean;
-    pokemon: PokemonInfo[];
+    guessingInputValue: string;
+    directSetGuessingInputValue: (newInputValue: string) => void;
+    autoCompleteOptions: PokemonInfo[];
+    handleAutoCompleteOptions: (currentInputValue: string) => void;
   }
 
 }
