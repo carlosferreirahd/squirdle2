@@ -8,6 +8,9 @@ module.exports = {
       'foreground': '#FFCC00',
       'link': '#5EBDFC',
     },
+    screens: {
+      'sm': {'max': '500px'},
+    },
   },
   variants: {
     extend: {},

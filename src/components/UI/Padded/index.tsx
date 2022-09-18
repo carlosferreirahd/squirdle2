@@ -4,7 +4,7 @@ export function Padded({
   children,
 }: Children) {
   return (
-    <div className="w-full px-10">
+    <div className="w-full px-10 sm:px-2">
       {children}
     </div>
   );
