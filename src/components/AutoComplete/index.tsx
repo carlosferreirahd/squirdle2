@@ -8,7 +8,7 @@ export function AutoComplete() {
 
   return (
     rowOptions.length === 0 ? null : (
-      <div className="bg-[#FFFFFF] max-h-80 overflow-auto p-4 rounded flex flex-col gap-2">
+      <div className="bg-[#FFFFFF] max-h-80 overflow-auto p-4 rounded flex flex-col gap-2 z-50">
         {rowOptions.map((pokemon: PokemonInfo, index: number) => (
           <AutoCompleteRow
             key={pokemon.name}

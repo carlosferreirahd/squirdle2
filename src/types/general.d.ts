@@ -14,4 +14,9 @@ declare module '@squirtle2/general' {
     showBottomDivider: boolean;
   };
 
+  interface ITypeTag {
+    type: string;
+    backgroundColor: string;
+  }
+
 }

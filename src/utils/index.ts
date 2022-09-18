@@ -1,1 +1,1 @@
-export { filterAutoCompleteOptions } from './helpers';
+export * from './helpers';

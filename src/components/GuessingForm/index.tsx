@@ -1,4 +1,4 @@
-import { AutoComplete } from "@components";
+import { AutoComplete, TypesList } from "@components";
 import { usePokemonStore } from "@providers";
 
 export function GuessingForm() {
@@ -37,6 +37,8 @@ export function GuessingForm() {
         >
           Submit
         </button>
+
+        <TypesList />
       </div>
 
       <AutoComplete />
