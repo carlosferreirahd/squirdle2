@@ -58,3 +58,8 @@ export function filterAutoCompleteOptions(
   return [];
 
 };
+
+export function getRandomPokemonFromDataSrc(): PokemonInfo {
+  const randomPokemon: PokemonInfo = pokedex[Math.floor(Math.random() * pokedex.length)];
+  return randomPokemon;
+}

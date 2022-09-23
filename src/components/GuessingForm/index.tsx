@@ -6,9 +6,8 @@ export function GuessingForm() {
   const guessingInputValue = usePokemonStore((state) => state.guessingInputValue);
   const inputChangeHandler = usePokemonStore((state) => state.handleAutoCompleteOptions);
 
-  function handleGuessSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log('value', guessingInputValue);
   }
 
   function handleInputOnChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -17,10 +16,15 @@ export function GuessingForm() {
     inputChangeHandler(inputValue);
   }
 
+  function handleSubmitButton(e: React.MouseEvent<HTMLElement>) {
+    e.preventDefault();
+    console.log('value', guessingInputValue);
+  }
+
   return (
     <form
       className="flex flex-col w-full gap-2"
-      onSubmit={handleGuessSubmit}
+      onSubmit={handleFormSubmit}
     >
 
       <div className="w-full relative">
@@ -30,10 +34,12 @@ export function GuessingForm() {
           placeholder="Who's that Pokémon?"
           value={guessingInputValue}
           onChange={handleInputOnChange}
+          autoFocus
         />
         <button
           className="bg-foreground rounded-r p-4 text-base font-semibold absolute right-0 z-10 top-0 hover:bg-opacity-70"
-          type="submit"
+          type="button"
+          onClick={handleSubmitButton}
         >
           Submit
         </button>
