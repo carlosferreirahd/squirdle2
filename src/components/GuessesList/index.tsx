@@ -50,6 +50,30 @@ export function GuessesList() {
         heightImgSrc={right}
         weightImgSrc={wrong}
       />
+      <GuessesListRow
+        name="Lugia"
+        genImgSrc={up}
+        type1ImgSrc={sides}
+        type2ImgSrc={down}
+        heightImgSrc={right}
+        weightImgSrc={wrong}
+      />
+      <GuessesListRow
+        name="Lugia"
+        genImgSrc={up}
+        type1ImgSrc={sides}
+        type2ImgSrc={down}
+        heightImgSrc={right}
+        weightImgSrc={wrong}
+      />
+      <GuessesListRow
+        name="Lugia"
+        genImgSrc={up}
+        type1ImgSrc={sides}
+        type2ImgSrc={down}
+        heightImgSrc={right}
+        weightImgSrc={wrong}
+      />
     </div>
   );
 }
