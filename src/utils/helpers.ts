@@ -63,3 +63,8 @@ export function getRandomPokemonFromDataSrc(): PokemonInfo {
   const randomPokemon: PokemonInfo = pokedex[Math.floor(Math.random() * pokedex.length)];
   return randomPokemon;
 }
+
+export function getPokemonByName(pokemonName: string): PokemonInfo | undefined {
+  const foundPokemon = pokedex.find(({ name }) => name.toLowerCase() === pokemonName.toLowerCase());
+  return foundPokemon;
+}

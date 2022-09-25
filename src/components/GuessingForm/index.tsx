@@ -5,6 +5,7 @@ export function GuessingForm() {
 
   const guessingInputValue = usePokemonStore((state) => state.guessingInputValue);
   const inputChangeHandler = usePokemonStore((state) => state.handleAutoCompleteOptions);
+  const dispatchGuess = usePokemonStore((state) => state.dispatchGuess);
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -18,6 +19,7 @@ export function GuessingForm() {
 
   function handleSubmitButton(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
+    dispatchGuess(guessingInputValue);
     console.log('value', guessingInputValue);
   }
 
