@@ -17,9 +17,8 @@ export function GuessesList() {
     <div className="w-full p-2 flex flex-col gap-2 my-4 relative">
       {guessesList.map((pokemon: PokemonInfo | undefined, i: number) => {
         return !!pokemon ? (
-          <div className="fade-in mb-4">
+          <div key={i} className="fade-in mb-4">
             <GuessesListRow
-              key={i}
               name={pokemon.name}
               genImgSrc={up}
               type1ImgSrc={down}
@@ -29,8 +28,8 @@ export function GuessesList() {
             />
           </div>
         ) : (
-          <span key={i} className="text-center text-foreground font-bold">
-            Pokemon not found...
+          <span key={i} className="fade-in text-center text-foreground font-bold">
+            Pokémon not found...
           </span>
         )
       })}

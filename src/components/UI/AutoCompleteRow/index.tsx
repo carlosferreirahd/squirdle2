@@ -14,9 +14,23 @@ export function AutoCompleteRow({
   const guessingInputValue = usePokemonStore((state) => state.guessingInputValue);
   const directSetGuessingInputValue = usePokemonStore((state) => state.directSetGuessingInputValue);
 
-  const trimmedValueLength = guessingInputValue.trim().length;
-  const nameBoldPart = name.substring(0, trimmedValueLength);
-  const nameRestPart = name.substring(trimmedValueLength, name.length);
+  function renderName() {
+    const nameValue = name.toLowerCase();
+    const trimmedValue = guessingInputValue.toLowerCase().trim();
+    const indexOfTrimmedValue = nameValue.indexOf(trimmedValue);
+    const trimmedValueLength = trimmedValue.length;
+    const nameLenght = name.length;
+
+    const beforePart = name.substring(0, indexOfTrimmedValue);
+    const boldPart = name.substring(indexOfTrimmedValue, indexOfTrimmedValue + trimmedValueLength);
+    const afterPart = name.substring(indexOfTrimmedValue + trimmedValueLength, nameLenght);
+
+    return (
+      <>
+        {beforePart}<strong>{boldPart}</strong>{afterPart}
+      </>
+    );
+  }
 
   return (
     <>
@@ -25,7 +39,7 @@ export function AutoCompleteRow({
         onClick={() => directSetGuessingInputValue(name)}
       >
         <h1 className="text-xl mb-1">
-          <strong>{nameBoldPart}</strong>{nameRestPart}
+          {renderName()}
         </h1>
         <span className="text-[#444444]">
           Gen {gen}, {type1}/{type2 === '' ? 'None' : type2}, {height}m, {weight}kg

@@ -51,7 +51,18 @@ export function filterAutoCompleteOptions(
 
   if (!!currentInputValue && !!currentInputValue.trim()) {
     return pokedex.filter(
-      (pokemon: PokemonInfo) => pokemon.name.toLowerCase().startsWith(currentInputValue.trim().toLowerCase())
+      (pokemon: PokemonInfo) => {
+        const pokedexValue = pokemon.name.toLocaleLowerCase();
+        const inputValue = currentInputValue.trim().toLowerCase();
+
+        const wholeMatch = pokedexValue.startsWith(inputValue);
+
+        // avoiding .includes
+        const splittedDexValue = pokedexValue.split(' ');
+        const partialMatch = splittedDexValue.some((namePart) => namePart.startsWith(inputValue));
+
+        return wholeMatch || partialMatch;
+      }
     );
   }
 
