@@ -13,7 +13,6 @@ export function GuessesList() {
 
   const guessesList = usePokemonStore((state) => state.guessesList);
   const targetPokemon = usePokemonStore((state) => state.targetPokemon);
-  console.log('target', targetPokemon)
 
   function handleImgSrcByProp(prop: string, guess: PokemonInfo) {
     // types -> either right or wrong

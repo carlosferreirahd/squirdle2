@@ -4,6 +4,7 @@ declare module '@squirtle2/providers' {
     targetPokemon: PokemonInfo;
     guessingInputValue: string;
     autoCompleteOptions: PokemonInfo[];
+    pokemonTypes: IPokemonTypes[];
     guessesList: (PokemonInfo | undefined)[];
     directSetGuessingInputValue: (newInputValue: string) => void;
     handleAutoCompleteOptions: (currentInputValue: string) => void;

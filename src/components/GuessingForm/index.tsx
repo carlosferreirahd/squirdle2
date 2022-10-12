@@ -20,7 +20,6 @@ export function GuessingForm() {
   function handleSubmitButton(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     dispatchGuess(guessingInputValue);
-    console.log('value', guessingInputValue);
   }
 
   return (

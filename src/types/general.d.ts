@@ -17,6 +17,8 @@ declare module '@squirtle2/general' {
   interface ITypeTag {
     type: string;
     backgroundColor: string;
+    rightGuessed: boolean;
+    wrongGuessed: boolean;
   }
 
   interface IGuessesListRow {
@@ -26,6 +28,13 @@ declare module '@squirtle2/general' {
     type2ImgSrc: string | undefined;
     heightImgSrc: string | undefined;
     weightImgSrc: string | undefined;
+  }
+
+  interface IPokemonTypes {
+    type: string;
+    typeColor: string;
+    rightGuessed: boolean;
+    wrongGuessed: boolean;
   }
 
 }

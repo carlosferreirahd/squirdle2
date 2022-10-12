@@ -1,4 +1,5 @@
 import { pokedex } from "@assets";
+import { IPokemonTypes } from "@squirtle2/general";
 import { PokemonInfo } from "@squirtle2/pokemon";
 
 export const types: string[] = [
@@ -45,6 +46,20 @@ export const mapTypeToColors: { [key: string]: string; } = {
   none: '#FFAB73',
 };
 
+export function buildPokemonTypesList(): IPokemonTypes[] {
+  const mappedTypes: IPokemonTypes[] = types.map((type) => {
+    const itype: IPokemonTypes = {
+      type: type,
+      typeColor: mapTypeToColors[type],
+      rightGuessed: false,
+      wrongGuessed: false,
+    }
+    return itype;
+  });
+
+  return mappedTypes;
+}
+
 export function filterAutoCompleteOptions(
   currentInputValue: string,
 ): PokemonInfo[] {
@@ -69,6 +84,47 @@ export function filterAutoCompleteOptions(
   return [];
 
 };
+
+export function handlePokemonTypeDispatch(
+  currentTypesList: IPokemonTypes[],
+  currentGuess: PokemonInfo | undefined,
+  targetAnswer: PokemonInfo,
+): IPokemonTypes[] {
+
+  if (!currentGuess) {
+    return currentTypesList;
+  }
+
+  const { type1: ctype1, type2: ctype2 } = currentGuess;
+  const { type1: ttype1, type2: ttype2 } = targetAnswer;
+
+  const currentGuessType1 = ctype1.toLowerCase();
+  const currentGuessType2 = ctype2.toLowerCase();
+  const targetType1 = ttype1.toLowerCase();
+  const targetType2 = ttype2.toLowerCase();
+
+  const treatedTypesList: IPokemonTypes[] = currentTypesList.map((ptype: IPokemonTypes) => {
+    const ptypeName = ptype.type === 'none' ? '' : ptype.type;
+
+    if (currentGuessType1 === ptypeName) {
+      if (currentGuessType1 === targetType1 || currentGuessType1 === targetType2) {
+        return { ...ptype, rightGuessed: true };
+      } else {
+        return { ...ptype, wrongGuessed: true };
+      }
+    }
+    if (currentGuessType2 === ptypeName) {
+      if (currentGuessType2 === targetType1 || currentGuessType2 === targetType2) {
+        return { ...ptype, rightGuessed: true };
+      } else {
+        return { ...ptype, wrongGuessed: true };
+      }
+    }
+    return ptype;
+  });
+
+  return treatedTypesList;
+}
 
 export function getRandomPokemonFromDataSrc(): PokemonInfo {
   const randomPokemon: PokemonInfo = pokedex[Math.floor(Math.random() * pokedex.length)];
