@@ -20,12 +20,12 @@ declare module '@squirtle2/general' {
   }
 
   interface IGuessesListRow {
-    name: string;
-    genImgSrc: string;
-    type1ImgSrc: string;
-    type2ImgSrc: string;
-    heightImgSrc: string;
-    weightImgSrc: string;
+    name: string | undefined;
+    genImgSrc: string | undefined;
+    type1ImgSrc: string | undefined;
+    type2ImgSrc: string | undefined;
+    heightImgSrc: string | undefined;
+    weightImgSrc: string | undefined;
   }
 
 }
