@@ -135,3 +135,26 @@ export function getPokemonByName(pokemonName: string): PokemonInfo | undefined {
   const foundPokemon = pokedex.find(({ name }) => name.toLowerCase() === pokemonName.toLowerCase());
   return foundPokemon;
 }
+
+export function pokemonAreEqual(pokemon1: PokemonInfo | undefined, pokemon2: PokemonInfo): boolean {
+
+  if (!pokemon1) {
+    return false;
+  }
+
+  const equalName = pokemon1.name === pokemon2.name;
+  const equalGen = pokemon1.gen === pokemon2.gen;
+  const equalHeight = pokemon1.height === pokemon2.height;
+  const equalWeight = pokemon1.weight === pokemon2.weight;
+  const equalType1 = pokemon1.type1 === pokemon2.type1;
+  const equalType2 = pokemon1.type2 === pokemon2.type2;
+
+  return (
+    equalName
+    && equalGen
+    && equalHeight
+    && equalWeight
+    && equalType1
+    && equalType2
+  );
+}

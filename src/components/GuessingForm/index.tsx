@@ -1,4 +1,4 @@
-import { AutoComplete, TypesList } from "@components";
+import { AutoComplete, TypesList, FinishGame } from "@components";
 import { usePokemonStore } from "@providers";
 
 export function GuessingForm() {
@@ -6,6 +6,7 @@ export function GuessingForm() {
   const guessingInputValue = usePokemonStore((state) => state.guessingInputValue);
   const inputChangeHandler = usePokemonStore((state) => state.handleAutoCompleteOptions);
   const dispatchGuess = usePokemonStore((state) => state.dispatchGuess);
+  const gameIsOver = usePokemonStore((state) => state.gameIsOver);
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,21 +30,27 @@ export function GuessingForm() {
     >
 
       <div className="w-full relative">
-        <input
-          className="h-14 w-full border border-solid border-[#DCDCDC] rounded p-4 text-xl outline-none pr-24"
-          type="text"
-          placeholder="Who's that Pokémon?"
-          value={guessingInputValue}
-          onChange={handleInputOnChange}
-          autoFocus
-        />
-        <button
-          className="bg-foreground rounded-r p-4 text-base font-semibold absolute right-0 z-10 top-0 hover:bg-opacity-70"
-          type="button"
-          onClick={handleSubmitButton}
-        >
-          Submit
-        </button>
+        {gameIsOver ? (
+          <FinishGame />
+        ) : (
+          <>
+            <input
+              className="h-14 w-full border border-solid border-[#DCDCDC] rounded p-4 text-xl outline-none pr-24"
+              type="text"
+              placeholder="Who's that Pokémon?"
+              value={guessingInputValue}
+              onChange={handleInputOnChange}
+              autoFocus
+            />
+            <button
+              className="bg-foreground rounded-r p-4 text-base font-semibold absolute right-0 z-10 top-0 hover:bg-opacity-70"
+              type="button"
+              onClick={handleSubmitButton}
+            >
+              Submit
+            </button>
+          </>
+        )}
 
         <TypesList />
       </div>

@@ -6,6 +6,7 @@ import {
   getPokemonByName,
   getRandomPokemonFromDataSrc,
   handlePokemonTypeDispatch,
+  pokemonAreEqual,
 } from "@utils";
 
 export const usePokemonStore = create<ZustandStore>((set, get) => ({
@@ -14,6 +15,7 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
   autoCompleteOptions: [],
   guessesList: [],
   pokemonTypes: buildPokemonTypesList(),
+  gameIsOver: false,
   handleAutoCompleteOptions: (currentInputValue) => {
     const filteredOptions = filterAutoCompleteOptions(currentInputValue);
     set({
@@ -39,10 +41,12 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
       const currentTargetPokemon = get().targetPokemon;
       const guessesListWithoutUndefined = currentGuessesList.filter((pokemon) => pokemon !== undefined);
       const tratedPokemonTypes = handlePokemonTypeDispatch(currentPokemonTypes, pokemonFromGuess, currentTargetPokemon);
+      const playerGuessedRight = pokemonAreEqual(pokemonFromGuess, currentTargetPokemon);
 
       set({
         guessesList: [...guessesListWithoutUndefined, pokemonFromGuess],
         pokemonTypes: tratedPokemonTypes,
+        gameIsOver: playerGuessedRight,
       });
     }
   },
