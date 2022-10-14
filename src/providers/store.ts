@@ -29,8 +29,15 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
   }),
   pickRandomPokemon: () => {
     const randomPokemon = getRandomPokemonFromDataSrc();
+
+    // setting new game
     set({
       targetPokemon: randomPokemon,
+      gameIsOver: false,
+      guessingInputValue: "",
+      guessesList: [],
+      autoCompleteOptions: [],
+      pokemonTypes: buildPokemonTypesList(),
     });
   },
   dispatchGuess: (guessValue) => {

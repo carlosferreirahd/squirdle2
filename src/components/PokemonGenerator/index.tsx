@@ -1,10 +1,19 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { PokemonGeneratorInput } from "@components";
+import { usePokemonStore } from "@providers";
 
 export function PokemonGenerator() {
 
   const startGenRef = useRef<HTMLInputElement>(null);
   const endGenRef = useRef<HTMLInputElement>(null);
+
+  const pickRandomPokemon = usePokemonStore((state) => state.pickRandomPokemon);
+  const targetPokemon = usePokemonStore((state) => state.targetPokemon);
+  console.log('target', targetPokemon);
+
+  useEffect(() => {
+    pickRandomPokemon();
+  }, [pickRandomPokemon]);
 
   function handleInvalidInput(
     e: React.ChangeEvent<HTMLInputElement>,
@@ -46,7 +55,10 @@ export function PokemonGenerator() {
           onChange={handleSecondInputChange}
         />
       </p>
-      <button className="mt-4 p-2 pr-4 rounded-xl text-[#000000] bg-link font-bold">
+      <button
+        className="mt-4 p-2 pr-4 rounded-xl text-[#000000] bg-link font-bold"
+        onClick={pickRandomPokemon}
+      >
         <i className="fa fa-play p-2" /> New Game
       </button>
     </div>
