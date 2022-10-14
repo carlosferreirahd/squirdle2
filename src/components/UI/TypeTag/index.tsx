@@ -15,7 +15,7 @@ export function TypeTag({
         opacity: wrongGuessed ? '0.4' : '',
       }}
     >
-      {type}
+      {type === 'none' ? 'Single-Type' : type}
     </span>
   );
 }

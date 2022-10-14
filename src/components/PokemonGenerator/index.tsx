@@ -6,34 +6,28 @@ export function PokemonGenerator() {
   const startGenRef = useRef<HTMLInputElement>(null);
   const endGenRef = useRef<HTMLInputElement>(null);
 
-  function handleFirstInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const inputValue = e.target.value;
-    const numericValue = parseInt(inputValue.replace(/[\W_]/g, ""), 10);
+  function handleInvalidInput(
+    e: React.ChangeEvent<HTMLInputElement>,
+    ref: React.RefObject<HTMLInputElement>,
+  ) {
+    if (ref.current) {
+      const inputValue = e.target.value;
+      const numericValue = parseInt(inputValue.replace(/[^\d]/g, ""), 10);
 
-    if (startGenRef.current) {
-      startGenRef.current.value = numericValue.toString();
-    }
+      ref.current.value = numericValue.toString();
 
-    if (numericValue < 1 || numericValue > 8) {
-      if (startGenRef.current) {
-        startGenRef.current.value = '';
+      if (numericValue < 1 || numericValue > 8) {
+        ref.current.value = '';
       }
     }
   }
 
+  function handleFirstInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    handleInvalidInput(e, startGenRef);
+  }
+
   function handleSecondInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const inputValue = e.target.value;
-    const numericValue = parseInt(inputValue.replace(/[\W_]/g, ""), 10);
-
-    if (endGenRef.current) {
-      endGenRef.current.value = numericValue.toString();
-    }
-
-    if (numericValue < 1 || numericValue > 8) {
-      if (endGenRef.current) {
-        endGenRef.current.value = '';
-      }
-    }
+    handleInvalidInput(e, endGenRef);
   }
 
   return (
