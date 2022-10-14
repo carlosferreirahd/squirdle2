@@ -37,4 +37,9 @@ declare module '@squirtle2/general' {
     wrongGuessed: boolean;
   }
 
+  interface IGeneratorInput {
+    defaultValue: number;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  }
+
 }
