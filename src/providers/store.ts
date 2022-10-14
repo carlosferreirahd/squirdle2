@@ -4,7 +4,7 @@ import {
   buildPokemonTypesList,
   filterAutoCompleteOptions,
   getPokemonByName,
-  getRandomPokemonFromDataSrc,
+  getPokemonFromDataSrc,
   handlePokemonTypeDispatch,
   pokemonAreEqual,
 } from "@utils";
@@ -27,8 +27,8 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
     guessingInputValue: newInputValue,
     autoCompleteOptions: [],
   }),
-  pickRandomPokemon: () => {
-    const randomPokemon = getRandomPokemonFromDataSrc();
+  startNewGame: () => {
+    const randomPokemon = getPokemonFromDataSrc();
 
     // setting new game
     set({

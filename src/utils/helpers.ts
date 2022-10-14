@@ -126,7 +126,7 @@ export function handlePokemonTypeDispatch(
   return treatedTypesList;
 }
 
-export function getRandomPokemonFromDataSrc(): PokemonInfo {
+export function getPokemonFromDataSrc(): PokemonInfo {
   const randomPokemon: PokemonInfo = pokedex[Math.floor(Math.random() * pokedex.length)];
   return randomPokemon;
 }

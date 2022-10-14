@@ -9,7 +9,7 @@ declare module '@squirtle2/providers' {
     gameIsOver: boolean;
     directSetGuessingInputValue: (newInputValue: string) => void;
     handleAutoCompleteOptions: (currentInputValue: string) => void;
-    pickRandomPokemon: () => void;
+    startNewGame: () => void;
     dispatchGuess: (guessValue: string) => void;
   }
 
