@@ -3,14 +3,17 @@ import { ZustandStore } from "@squirtle2/providers";
 import {
   buildPokemonTypesList,
   filterAutoCompleteOptions,
+  getFromLocalStorageByKey,
+  getPokemonByIndex,
   getPokemonByName,
   getPokemonFromDataSrc,
   handlePokemonTypeDispatch,
   pokemonAreEqual,
+  setToLocalStorageWithKey,
 } from "@utils";
 
 export const usePokemonStore = create<ZustandStore>((set, get) => ({
-  targetPokemon: null,
+  targetPokemon: undefined,
   guessingInputValue: "",
   autoCompleteOptions: [],
   guessesList: [],
@@ -28,17 +31,44 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
     autoCompleteOptions: [],
   }),
   startNewGame: () => {
-    const randomPokemon = getPokemonFromDataSrc();
 
-    // setting new game
-    set({
-      targetPokemon: randomPokemon,
-      gameIsOver: false,
-      guessingInputValue: "",
-      guessesList: [],
-      autoCompleteOptions: [],
-      pokemonTypes: buildPokemonTypesList(),
-    });
+    function setUpNewGame() {
+      const randomPokemonValues = getPokemonFromDataSrc();
+      const randomPokemonIndex = randomPokemonValues[0];
+      const randomPokemon = randomPokemonValues[1];
+
+      setToLocalStorageWithKey("gameIsOver", JSON.stringify(false));
+      setToLocalStorageWithKey("secretIndex", JSON.stringify(randomPokemonIndex));
+
+      set({
+        targetPokemon: randomPokemon,
+        gameIsOver: false,
+        guessingInputValue: "",
+        guessesList: [],
+        autoCompleteOptions: [],
+        pokemonTypes: buildPokemonTypesList(),
+      });
+    }
+
+    function setUpGameWithPreviousData() {
+      const secretIndex = getFromLocalStorageByKey("secretIndex");
+
+      if (secretIndex) {
+        const targetPokemon = getPokemonByIndex(parseInt(secretIndex));
+
+        set({
+          targetPokemon: targetPokemon,
+        });
+      }
+    }
+
+    const lastGameIsOver = getFromLocalStorageByKey("gameIsOver");
+
+    if (lastGameIsOver && lastGameIsOver === "false") {
+      setUpGameWithPreviousData();
+    } else {
+      setUpNewGame();
+    }
   },
   dispatchGuess: (guessValue) => {
     if (!!guessValue) {

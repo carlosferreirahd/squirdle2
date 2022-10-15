@@ -126,14 +126,20 @@ export function handlePokemonTypeDispatch(
   return treatedTypesList;
 }
 
-export function getPokemonFromDataSrc(): PokemonInfo {
-  const randomPokemon: PokemonInfo = pokedex[Math.floor(Math.random() * pokedex.length)];
-  return randomPokemon;
+export function getPokemonFromDataSrc(): [number, PokemonInfo] {
+  const pokemonIndex = Math.floor(Math.random() * pokedex.length);
+  const randomPokemon: PokemonInfo = pokedex[pokemonIndex];
+  return [pokemonIndex, randomPokemon];
 }
 
 export function getPokemonByName(pokemonName: string): PokemonInfo | undefined {
   const foundPokemon = pokedex.find(({ name }) => name.toLowerCase() === pokemonName.toLowerCase());
   return foundPokemon;
+}
+
+export function getPokemonByIndex(index: number): PokemonInfo | undefined {
+  const foundPokemon = pokedex[index];
+  return foundPokemon || undefined;
 }
 
 export function pokemonAreEqual(pokemon1: PokemonInfo | undefined, pokemon2: PokemonInfo): boolean {
