@@ -2,6 +2,7 @@ import create from "zustand";
 import { ZustandStore } from "@squirtle2/providers";
 import {
   buildPokemonTypesList,
+  clearLocalStorage,
   filterAutoCompleteOptions,
   getFromLocalStorageByKey,
   getPokemonByIndex,
@@ -30,45 +31,52 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
     guessingInputValue: newInputValue,
     autoCompleteOptions: [],
   }),
-  startNewGame: () => {
+  setUpNewGame: () => {
+    const randomPokemonValues = getPokemonFromDataSrc();
+    const randomPokemonIndex = randomPokemonValues[0];
+    const randomPokemon = randomPokemonValues[1];
 
-    function setUpNewGame() {
-      const randomPokemonValues = getPokemonFromDataSrc();
-      const randomPokemonIndex = randomPokemonValues[0];
-      const randomPokemon = randomPokemonValues[1];
+    clearLocalStorage();
 
-      setToLocalStorageWithKey("gameIsOver", JSON.stringify(false));
-      setToLocalStorageWithKey("secretIndex", JSON.stringify(randomPokemonIndex));
+    setToLocalStorageWithKey("secretIndex", JSON.stringify(randomPokemonIndex));
+    setToLocalStorageWithKey("gameIsOver", JSON.stringify(false));
 
-      set({
-        targetPokemon: randomPokemon,
-        gameIsOver: false,
-        guessingInputValue: "",
-        guessesList: [],
-        autoCompleteOptions: [],
-        pokemonTypes: buildPokemonTypesList(),
-      });
-    }
+    set({
+      gameIsOver: false,
+      targetPokemon: randomPokemon,
+      guessingInputValue: "",
+      guessesList: [],
+      autoCompleteOptions: [],
+      pokemonTypes: buildPokemonTypesList(),
+    });
+  },
+  handleCurrentGameState: () => {
 
-    function setUpGameWithPreviousData() {
+    function setUpGameWithPreviousData(gameFinished: boolean) {
       const secretIndex = getFromLocalStorageByKey("secretIndex");
+      const latestGuessesList = getFromLocalStorageByKey("guessesList");
+      const latestPokemonTypes = getFromLocalStorageByKey("typesCurrentState");
 
       if (secretIndex) {
         const targetPokemon = getPokemonByIndex(parseInt(secretIndex));
 
         set({
           targetPokemon: targetPokemon,
+          gameIsOver: gameFinished,
+          guessesList: latestGuessesList ?? [],
+          pokemonTypes: latestPokemonTypes ?? buildPokemonTypesList(),
         });
       }
     }
 
     const lastGameIsOver = getFromLocalStorageByKey("gameIsOver");
 
-    if (lastGameIsOver && lastGameIsOver === "false") {
-      setUpGameWithPreviousData();
+    if (lastGameIsOver === undefined) {
+      get().setUpNewGame();
     } else {
-      setUpNewGame();
+      setUpGameWithPreviousData(lastGameIsOver);
     }
+
   },
   dispatchGuess: (guessValue) => {
     if (!!guessValue) {
@@ -76,13 +84,18 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
       const currentGuessesList = get().guessesList;
       const currentPokemonTypes = get().pokemonTypes;
       const currentTargetPokemon = get().targetPokemon;
-      const guessesListWithoutUndefined = currentGuessesList.filter((pokemon) => pokemon !== undefined);
-      const tratedPokemonTypes = handlePokemonTypeDispatch(currentPokemonTypes, pokemonFromGuess, currentTargetPokemon);
+      const guessesListWithoutUndefined = currentGuessesList.filter((pokemon) => !!pokemon);
+      const treatedPokemonTypes = handlePokemonTypeDispatch(currentPokemonTypes, pokemonFromGuess, currentTargetPokemon);
       const playerGuessedRight = pokemonAreEqual(pokemonFromGuess, currentTargetPokemon);
+      const treatedGuessesList = [...guessesListWithoutUndefined, pokemonFromGuess];
+
+      setToLocalStorageWithKey("gameIsOver", JSON.stringify(playerGuessedRight));
+      setToLocalStorageWithKey("guessesList", JSON.stringify(treatedGuessesList));
+      setToLocalStorageWithKey("typesCurrentState", JSON.stringify(treatedPokemonTypes));
 
       set({
-        guessesList: [...guessesListWithoutUndefined, pokemonFromGuess],
-        pokemonTypes: tratedPokemonTypes,
+        guessesList: treatedGuessesList,
+        pokemonTypes: treatedPokemonTypes,
         gameIsOver: playerGuessedRight,
       });
     }

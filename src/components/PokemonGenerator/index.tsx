@@ -8,13 +8,14 @@ export function PokemonGenerator() {
   const startGenRef = useRef<HTMLInputElement>(null);
   const endGenRef = useRef<HTMLInputElement>(null);
 
-  const startNewGame = usePokemonStore((state) => state.startNewGame);
+  const handleGameState = usePokemonStore((state) => state.handleCurrentGameState);
+  const startNewGame = usePokemonStore((state) => state.setUpNewGame);
   const targetPokemon = usePokemonStore((state) => state.targetPokemon);
   console.log('target', targetPokemon);
 
   useEffect(() => {
-    startNewGame();
-  }, [startNewGame]);
+    handleGameState();
+  }, [handleGameState]);
 
   function showErrorToast(message: string) {
     toast.error(message, {
@@ -43,10 +44,12 @@ export function PokemonGenerator() {
           console.log('values', startGenValue, endGenValue);
           if (startGenValue <= endGenValue) {
             // startNewGame(start, end);
+            startNewGame();
           } else {
             startGenRef.current.value = endGenValue.toString();
             endGenRef.current.value = startGenValue.toString();
             // startNewGame(end, start);
+            startNewGame();
           }
           // save startValue and endValue inside localStorage
           // save pokemon id inside localStorage
@@ -101,6 +104,7 @@ export function PokemonGenerator() {
       </p>
       <button
         className="mt-4 p-2 pr-4 rounded-xl text-[#000000] bg-link font-bold"
+        type="button"
         onClick={onNewGameButtonClick}
       >
         <i className="fa fa-play p-2" /> New Game
