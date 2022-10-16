@@ -31,12 +31,23 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
     guessingInputValue: newInputValue,
     autoCompleteOptions: [],
   }),
-  setUpNewGame: () => {
-    const randomPokemonValues = getPokemonFromDataSrc();
+  setUpNewGame: (startGen, endGen) => {
+    clearLocalStorage();
+
+    if (startGen && endGen) {
+      setToLocalStorageWithKey("startGen", JSON.stringify(startGen));
+      setToLocalStorageWithKey("endGen", JSON.stringify(endGen));
+    } else {
+      setToLocalStorageWithKey("startGen", "1");
+      setToLocalStorageWithKey("endGen", "8");
+    }
+
+    const startGenValue: number = getFromLocalStorageByKey("startGen");
+    const endGenValue: number = getFromLocalStorageByKey("endGen");
+
+    const randomPokemonValues = getPokemonFromDataSrc(startGenValue, endGenValue);
     const randomPokemonIndex = randomPokemonValues[0];
     const randomPokemon = randomPokemonValues[1];
-
-    clearLocalStorage();
 
     setToLocalStorageWithKey("secretIndex", JSON.stringify(randomPokemonIndex));
     setToLocalStorageWithKey("gameIsOver", JSON.stringify(false));

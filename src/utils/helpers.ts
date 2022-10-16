@@ -67,7 +67,7 @@ export function filterAutoCompleteOptions(
   if (!!currentInputValue && !!currentInputValue.trim()) {
     return pokedex.filter(
       (pokemon: PokemonInfo) => {
-        const pokedexValue = pokemon.name.toLocaleLowerCase();
+        const pokedexValue = pokemon.name.toLowerCase();
         const inputValue = currentInputValue.trim().toLowerCase();
 
         const wholeMatch = pokedexValue.startsWith(inputValue);
@@ -126,10 +126,18 @@ export function handlePokemonTypeDispatch(
   return treatedTypesList;
 }
 
-export function getPokemonFromDataSrc(): [number, PokemonInfo] {
-  const pokemonIndex = Math.floor(Math.random() * pokedex.length);
-  const randomPokemon: PokemonInfo = pokedex[pokemonIndex];
-  return [pokemonIndex, randomPokemon];
+export function getPokemonFromDataSrc(startGenValue?: number, endGenValue?: number): [number, PokemonInfo] {
+  if ((!startGenValue || !endGenValue) || (startGenValue === 1 && endGenValue === 8)) {
+    const pokemonIndex = Math.floor(Math.random() * pokedex.length);
+    const randomPokemon: PokemonInfo = pokedex[pokemonIndex];
+    return [pokemonIndex, randomPokemon];
+  } else {
+    console.log('from ls', startGenValue, endGenValue);
+    const filteredPokemon = pokedex.filter((pokemon: PokemonInfo) => ((pokemon.gen >= startGenValue) && (pokemon.gen <= endGenValue)));
+    const pokemonIndex = Math.floor(Math.random() * filteredPokemon.length);
+    const randomPokemon: PokemonInfo = filteredPokemon[pokemonIndex];
+    return [pokemonIndex, randomPokemon];
+  }
 }
 
 export function getPokemonByName(pokemonName: string): PokemonInfo | undefined {

@@ -2,11 +2,22 @@ import { useEffect, useRef } from "react";
 import { PokemonGeneratorInput } from "@components";
 import { usePokemonStore } from "@providers";
 import { toast } from "react-toastify";
+import { getFromLocalStorageByKey } from "@utils";
 
 export function PokemonGenerator() {
 
   const startGenRef = useRef<HTMLInputElement>(null);
   const endGenRef = useRef<HTMLInputElement>(null);
+
+  const startGenValueFromLS = getFromLocalStorageByKey("startGen") ?? 1;
+  const endGenValueFromLS = getFromLocalStorageByKey("endGen") ?? 8;
+  console.log('executin this');
+
+  const defaultStartGenValue
+    = isNaN(parseInt(startGenValueFromLS)) ? 1 : isValidInputRange(startGenValueFromLS) ? startGenValueFromLS : 1;
+
+  const defaultEndGenValue
+    = isNaN(parseInt(endGenValueFromLS)) ? 1 : isValidInputRange(endGenValueFromLS) ? endGenValueFromLS : 8;
 
   const handleGameState = usePokemonStore((state) => state.handleCurrentGameState);
   const startNewGame = usePokemonStore((state) => state.setUpNewGame);
@@ -43,13 +54,11 @@ export function PokemonGenerator() {
         if (isValidInputRange(startGenValue) && isValidInputRange(endGenValue)) {
           console.log('values', startGenValue, endGenValue);
           if (startGenValue <= endGenValue) {
-            // startNewGame(start, end);
-            startNewGame();
+            startNewGame(startGenValue, endGenValue);
           } else {
             startGenRef.current.value = endGenValue.toString();
             endGenRef.current.value = startGenValue.toString();
-            // startNewGame(end, start);
-            startNewGame();
+            startNewGame(endGenValue, startGenValue);
           }
           // save startValue and endValue inside localStorage
           // save pokemon id inside localStorage
@@ -68,13 +77,25 @@ export function PokemonGenerator() {
   ) {
     if (ref.current) {
       const inputValue = e.target.value;
+
+      if (inputValue === '') {
+        ref.current.value = '';
+        return;
+      }
+
       const numericValue = parseInt(inputValue.replace(/[^\d]/g, ""), 10);
 
-      ref.current.value = numericValue.toString();
+      if (isNaN(numericValue)) {
+        ref.current.value = '';
+        return;
+      }
 
       if (!isValidInputRange(numericValue)) {
         ref.current.value = '';
+        return;
       }
+
+      ref.current.value = numericValue.toString();
     }
   }
 
@@ -92,13 +113,13 @@ export function PokemonGenerator() {
         Guess Pokémon from gen&nbsp;
         <PokemonGeneratorInput
           ref={startGenRef}
-          defaultValue={1}
+          defaultValue={defaultStartGenValue}
           onChange={handleFirstInputChange}
         />
         &nbsp;to&nbsp;
         <PokemonGeneratorInput
           ref={endGenRef}
-          defaultValue={8}
+          defaultValue={defaultEndGenValue}
           onChange={handleSecondInputChange}
         />
       </p>
