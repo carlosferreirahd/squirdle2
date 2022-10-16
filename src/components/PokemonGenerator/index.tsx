@@ -11,7 +11,6 @@ export function PokemonGenerator() {
 
   const startGenValueFromLS = getFromLocalStorageByKey("startGen") ?? 1;
   const endGenValueFromLS = getFromLocalStorageByKey("endGen") ?? 8;
-  console.log('executin this');
 
   const defaultStartGenValue
     = isNaN(parseInt(startGenValueFromLS)) ? 1 : isValidInputRange(startGenValueFromLS) ? startGenValueFromLS : 1;
@@ -21,8 +20,10 @@ export function PokemonGenerator() {
 
   const handleGameState = usePokemonStore((state) => state.handleCurrentGameState);
   const startNewGame = usePokemonStore((state) => state.setUpNewGame);
-  const targetPokemon = usePokemonStore((state) => state.targetPokemon);
-  console.log('target', targetPokemon);
+
+  // debbuging :^
+  // const targetPokemon = usePokemonStore((state) => state.targetPokemon);
+  // console.log('target', targetPokemon);
 
   useEffect(() => {
     handleGameState();
@@ -52,7 +53,6 @@ export function PokemonGenerator() {
 
       if (startGenValue && endGenValue) {
         if (isValidInputRange(startGenValue) && isValidInputRange(endGenValue)) {
-          console.log('values', startGenValue, endGenValue);
           if (startGenValue <= endGenValue) {
             startNewGame(startGenValue, endGenValue);
           } else {
@@ -60,8 +60,7 @@ export function PokemonGenerator() {
             endGenRef.current.value = startGenValue.toString();
             startNewGame(endGenValue, startGenValue);
           }
-          // save startValue and endValue inside localStorage
-          // save pokemon id inside localStorage
+
           toast.dismiss();
           return;
         }
@@ -110,13 +109,13 @@ export function PokemonGenerator() {
   return (
     <div className="w-full text-center mb-8 text-foreground">
       <p>
-        Guess Pokémon from gen&nbsp;
+        <span>Guess Pokémon from gen </span>
         <PokemonGeneratorInput
           ref={startGenRef}
           defaultValue={defaultStartGenValue}
           onChange={handleFirstInputChange}
         />
-        &nbsp;to&nbsp;
+        <span> to </span>
         <PokemonGeneratorInput
           ref={endGenRef}
           defaultValue={defaultEndGenValue}

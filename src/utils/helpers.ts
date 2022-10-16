@@ -132,11 +132,11 @@ export function getPokemonFromDataSrc(startGenValue?: number, endGenValue?: numb
     const randomPokemon: PokemonInfo = pokedex[pokemonIndex];
     return [pokemonIndex, randomPokemon];
   } else {
-    console.log('from ls', startGenValue, endGenValue);
     const filteredPokemon = pokedex.filter((pokemon: PokemonInfo) => ((pokemon.gen >= startGenValue) && (pokemon.gen <= endGenValue)));
     const pokemonIndex = Math.floor(Math.random() * filteredPokemon.length);
     const randomPokemon: PokemonInfo = filteredPokemon[pokemonIndex];
-    return [pokemonIndex, randomPokemon];
+    const pokedexIndex = pokedex.findIndex((pokemon: PokemonInfo) => pokemonAreEqual(pokemon, randomPokemon));
+    return [pokedexIndex, randomPokemon];
   }
 }
 
