@@ -59,7 +59,7 @@ export function GuessesList() {
         return !!pokemon ? (
           <div key={i} className="fade-in mb-4">
             <GuessesListRow
-              name={pokemon.name}
+              pokemon={pokemon}
               genImgSrc={handleImgSrcByProp('gen', pokemon)}
               type1ImgSrc={handleImgSrcByProp('type1', pokemon)}
               type2ImgSrc={handleImgSrcByProp('type2', pokemon)}

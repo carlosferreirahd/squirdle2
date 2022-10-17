@@ -22,7 +22,7 @@ declare module '@squirtle2/general' {
   }
 
   interface IGuessesListRow {
-    name: string | undefined;
+    pokemon: PokemonInfo;
     genImgSrc: string | undefined;
     type1ImgSrc: string | undefined;
     type2ImgSrc: string | undefined;
@@ -40,6 +40,11 @@ declare module '@squirtle2/general' {
   interface IGeneratorInput {
     defaultValue: number;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  }
+
+  interface ITooltip {
+    children: React.ReactNode;
+    content?: React.ReactNode;
   }
 
 }
