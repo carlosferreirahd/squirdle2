@@ -8,10 +8,12 @@ import { usePokemonStore } from "@providers";
 
 export function GuessingForm() {
 
+  const gameIsOver = usePokemonStore((state) => state.gameIsOver);
   const guessingInputValue = usePokemonStore((state) => state.guessingInputValue);
+  const infoIsShown = usePokemonStore((state) => state.infoIsShown);
+  const toggleInfoVisibility = usePokemonStore((state) => state.toggleInfoVisibility);
   const inputChangeHandler = usePokemonStore((state) => state.handleAutoCompleteOptions);
   const dispatchGuess = usePokemonStore((state) => state.dispatchGuess);
-  const gameIsOver = usePokemonStore((state) => state.gameIsOver);
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -54,10 +56,19 @@ export function GuessingForm() {
             >
               Submit
             </button>
+            <div className="text-center absolute w-full">
+              <button
+                className="border mt-3 rounded-xl py-1 px-2 text-foreground"
+                type="button"
+                onClick={toggleInfoVisibility}
+              >
+                <i className={`fa px-2 ${infoIsShown ? 'fa-eye' : 'fa-eye-slash'}`} /> Pokémon Info {infoIsShown ? 'ON' : 'OFF'}
+              </button>
+            </div>
           </>
         )}
 
-        <div className="z-20 absolute mt-5">
+        <div className="z-20 absolute mt-20">
           <TypesList />
           <PokemonGenerator />
         </div>

@@ -11,6 +11,7 @@ export function AutoCompleteRow({
   showBottomDivider = false,
 }: IAutoCompleteRow) {
 
+  const infoIsShown = usePokemonStore((state) => state.infoIsShown);
   const guessingInputValue = usePokemonStore((state) => state.guessingInputValue);
   const directSetGuessingInputValue = usePokemonStore((state) => state.directSetGuessingInputValue);
 
@@ -41,9 +42,11 @@ export function AutoCompleteRow({
         <h1 className="text-xl mb-1">
           {renderName()}
         </h1>
-        <span className="text-[#444444]">
-          Gen {gen}, {type1}/{type2 === '' ? 'None' : type2}, {height}m, {weight}kg
-        </span>
+        {infoIsShown && (
+          <span className="text-[#444444]">
+            Gen {gen}, {type1}/{type2 === '' ? 'None' : type2}, {height}m, {weight}kg
+          </span>
+        )}
       </div>
       {showBottomDivider && <hr className="w-full text-[#D4D4D4]" />}
     </>

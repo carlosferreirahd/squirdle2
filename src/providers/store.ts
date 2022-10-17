@@ -20,6 +20,15 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
   guessesList: [],
   pokemonTypes: buildPokemonTypesList(),
   gameIsOver: false,
+  infoIsShown: getFromLocalStorageByKey("infoVisibility") ?? true  ,
+  toggleInfoVisibility: () => {
+    const infoVisibility = get().infoIsShown;
+    setToLocalStorageWithKey("infoVisibility", JSON.stringify(!infoVisibility));
+
+    set({
+      infoIsShown: !infoVisibility,
+    });
+  },
   handleAutoCompleteOptions: (currentInputValue) => {
     const filteredOptions = filterAutoCompleteOptions(currentInputValue);
     set({
@@ -44,6 +53,7 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
 
     const startGenValue: number = getFromLocalStorageByKey("startGen");
     const endGenValue: number = getFromLocalStorageByKey("endGen");
+    const infoVisibility: boolean = get().infoIsShown ?? true;
 
     const randomPokemonValues = getPokemonFromDataSrc(startGenValue, endGenValue);
     const randomPokemonIndex = randomPokemonValues[0];
@@ -51,11 +61,13 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
 
     setToLocalStorageWithKey("secretIndex", JSON.stringify(randomPokemonIndex));
     setToLocalStorageWithKey("gameIsOver", JSON.stringify(false));
+    setToLocalStorageWithKey("infoVisibility", JSON.stringify(infoVisibility));
 
     set({
       gameIsOver: false,
       targetPokemon: randomPokemon,
       guessingInputValue: "",
+      infoIsShown: infoVisibility,
       guessesList: [],
       autoCompleteOptions: [],
       pokemonTypes: buildPokemonTypesList(),
