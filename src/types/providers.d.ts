@@ -8,6 +8,7 @@ declare module '@squirtle2/providers' {
     guessesList: (PokemonInfo | undefined)[];
     gameIsOver: boolean;
     infoIsShown: boolean;
+    guessesLimit: number;
     toggleInfoVisibility: () => void;
     directSetGuessingInputValue: (newInputValue: string) => void;
     handleAutoCompleteOptions: (currentInputValue: string) => void;

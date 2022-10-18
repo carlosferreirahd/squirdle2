@@ -15,12 +15,13 @@ import {
 
 export const usePokemonStore = create<ZustandStore>((set, get) => ({
   targetPokemon: undefined,
+  guessesLimit: 6,
   guessingInputValue: "",
   autoCompleteOptions: [],
   guessesList: [],
   pokemonTypes: buildPokemonTypesList(),
   gameIsOver: false,
-  infoIsShown: getFromLocalStorageByKey("infoVisibility") ?? true  ,
+  infoIsShown: getFromLocalStorageByKey("infoVisibility") ?? true,
   toggleInfoVisibility: () => {
     const infoVisibility = get().infoIsShown;
     setToLocalStorageWithKey("infoVisibility", JSON.stringify(!infoVisibility));
@@ -111,15 +112,18 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
       const treatedPokemonTypes = handlePokemonTypeDispatch(currentPokemonTypes, pokemonFromGuess, currentTargetPokemon);
       const playerGuessedRight = pokemonAreEqual(pokemonFromGuess, currentTargetPokemon);
       const treatedGuessesList = [...guessesListWithoutUndefined, pokemonFromGuess];
+      const treatedGuessesListWithoutUndefined = treatedGuessesList.filter((guess) => !!guess);
+      const playerLost = treatedGuessesListWithoutUndefined.length >= get().guessesLimit;
+      const gameIsOver = playerGuessedRight || playerLost;
 
-      setToLocalStorageWithKey("gameIsOver", JSON.stringify(playerGuessedRight));
+      setToLocalStorageWithKey("gameIsOver", JSON.stringify(gameIsOver));
       setToLocalStorageWithKey("guessesList", JSON.stringify(treatedGuessesList));
       setToLocalStorageWithKey("typesCurrentState", JSON.stringify(treatedPokemonTypes));
 
       set({
         guessesList: treatedGuessesList,
         pokemonTypes: treatedPokemonTypes,
-        gameIsOver: playerGuessedRight,
+        gameIsOver: gameIsOver,
       });
     }
   },
