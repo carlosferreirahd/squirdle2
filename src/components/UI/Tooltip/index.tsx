@@ -10,7 +10,7 @@ export function Tooltip({
     >
       {children}
       <span
-        className="invisible group-hover:visible fade-in w-36 bg-[#000000] text-[#ffffff] text-center rounded-md py-2 absolute z-50 -top-[5px] left-[105%]"
+        className="hidden invisible group-hover:block group-hover:visible fade-in w-44 bg-[#000000] text-[#ffffff] text-center rounded-md py-2 absolute z-50 -top-[5px] left-[105%]"
       >
         {content}
       </span>
