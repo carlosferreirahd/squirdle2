@@ -1,4 +1,5 @@
 import { Tooltip } from "@components";
+import { Link } from "react-router-dom";
 
 export function HeaderInfo() {
 
@@ -34,7 +35,7 @@ export function HeaderInfo() {
 
       <h3 className="text-foreground text-center font-extrabold text-lg">
         <span>I'm thinking of a Pokémon. Guess which! You have 7 guesses. <Tooltip content={emojiKeyTooltipContent()}><span className="text-center text-link underline">Emoji Key</span></Tooltip></span>
-        <p className="text-center text-link underline">Advanced filters guide</p>
+        <p className="text-center text-link underline"><Link to="/filters">Advanced filters guide</Link></p>
       </h3>
     </>
   );
