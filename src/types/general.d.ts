@@ -47,4 +47,10 @@ declare module '@squirtle2/general' {
     content?: React.ReactNode;
   }
 
+  interface ISimpleTag {
+    text: string;
+    color?: string;
+    size?: 'small' | 'large';
+  }
+
 }
