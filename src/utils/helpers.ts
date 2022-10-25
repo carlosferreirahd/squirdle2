@@ -172,3 +172,18 @@ export function pokemonAreEqual(pokemon1: PokemonInfo | undefined, pokemon2: Pok
     && equalType2
   );
 }
+
+export function detectFilter(currentInputValue: string): boolean {
+  const firstWord = currentInputValue.toLowerCase().trim().split(' ')[0];
+  const maybeFilter = firstWord.split(':');
+  const maybeFilterFirst = maybeFilter[0];
+  const maybeFilterSecond = maybeFilter[1];
+
+  return (maybeFilterFirst === 'gen'
+    || maybeFilterFirst === 'type1'
+    || maybeFilterFirst === 'type2'
+    || maybeFilterFirst === 'type'
+    || maybeFilterFirst === 'height'
+    || maybeFilterFirst === 'weight') && !!maybeFilterSecond;
+
+}

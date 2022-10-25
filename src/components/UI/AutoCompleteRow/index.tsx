@@ -12,6 +12,7 @@ export function AutoCompleteRow({
 }: IAutoCompleteRow) {
 
   const infoIsShown = usePokemonStore((state) => state.infoIsShown);
+  const filterIsShown = usePokemonStore((state) => state.filterIsShown);
   const guessingInputValue = usePokemonStore((state) => state.guessingInputValue);
   const directSetGuessingInputValue = usePokemonStore((state) => state.directSetGuessingInputValue);
 
@@ -33,6 +34,14 @@ export function AutoCompleteRow({
     );
   }
 
+  function renderSimpleName() {
+    return (
+      <>
+        {name}
+      </>
+    );
+  }
+
   return (
     <>
       <div
@@ -40,7 +49,7 @@ export function AutoCompleteRow({
         onClick={() => directSetGuessingInputValue(name)}
       >
         <h1 className="text-xl mb-1">
-          {renderName()}
+          {filterIsShown ? renderSimpleName() : renderName()}
         </h1>
         {infoIsShown && (
           <span className="text-[#444444]">

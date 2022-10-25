@@ -3,6 +3,7 @@ import { ZustandStore } from "@squirtle2/providers";
 import {
   buildPokemonTypesList,
   clearLocalStorage,
+  detectFilter,
   filterAutoCompleteOptions,
   getFromLocalStorageByKey,
   getPokemonByIndex,
@@ -22,6 +23,7 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
   pokemonTypes: buildPokemonTypesList(),
   gameIsOver: false,
   infoIsShown: getFromLocalStorageByKey("infoVisibility") ?? true,
+  filterIsShown: false,
   toggleInfoVisibility: () => {
     const infoVisibility = get().infoIsShown;
     setToLocalStorageWithKey("infoVisibility", JSON.stringify(!infoVisibility));
@@ -31,11 +33,21 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
     });
   },
   handleAutoCompleteOptions: (currentInputValue) => {
-    const filteredOptions = filterAutoCompleteOptions(currentInputValue);
-    set({
-      autoCompleteOptions: filteredOptions,
-      guessingInputValue: currentInputValue,
-    });
+    const theresFilter = detectFilter(currentInputValue);
+
+    if (theresFilter) {
+      set({
+        filterIsShown: true,
+        guessingInputValue: currentInputValue,
+      });
+    } else {
+      const filteredOptions = filterAutoCompleteOptions(currentInputValue);
+      set({
+        autoCompleteOptions: filteredOptions,
+        guessingInputValue: currentInputValue,
+        filterIsShown: false,
+      });
+    }
   },
   directSetGuessingInputValue: (newInputValue) => set({
     guessingInputValue: newInputValue,
