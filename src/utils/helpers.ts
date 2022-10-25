@@ -175,7 +175,13 @@ export function pokemonAreEqual(pokemon1: PokemonInfo | undefined, pokemon2: Pok
 
 export function detectFilter(currentInputValue: string): boolean {
   const firstWord = currentInputValue.toLowerCase().trim().split(' ')[0];
-  const maybeFilter = firstWord.split(':');
+  const operations = [':', '!', '>', '<'];
+  const checkEachOp = operations.map((op) => applyFilterDetection(firstWord, op));
+  return checkEachOp.some(value => value);
+}
+
+export function applyFilterDetection(firstWord: string, op: string) {
+  const maybeFilter = firstWord.split(op);
   const maybeFilterFirst = maybeFilter[0];
   const maybeFilterSecond = maybeFilter[1];
 
@@ -185,5 +191,4 @@ export function detectFilter(currentInputValue: string): boolean {
     || maybeFilterFirst === 'type'
     || maybeFilterFirst === 'height'
     || maybeFilterFirst === 'weight') && !!maybeFilterSecond;
-
 }
