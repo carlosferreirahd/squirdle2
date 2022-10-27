@@ -180,7 +180,7 @@ export function detectFilter(currentInputValue: string): boolean {
   return checkEachOp.some(value => value);
 }
 
-export function applyFilterDetection(firstWord: string, op: string) {
+export function applyFilterDetection(firstWord: string, op: string): boolean {
   const maybeFilter = firstWord.split(op);
   const maybeFilterFirst = maybeFilter[0];
   const maybeFilterSecond = maybeFilter[1];
@@ -191,4 +191,99 @@ export function applyFilterDetection(firstWord: string, op: string) {
     || maybeFilterFirst === 'type'
     || maybeFilterFirst === 'height'
     || maybeFilterFirst === 'weight') && !!maybeFilterSecond;
+}
+
+export function applyFilters(currentInputValue: string): PokemonInfo[] {
+  const eachWord = currentInputValue.toLowerCase().trim().split(' ');
+  var initialValue: PokemonInfo[] = pokedex;
+  eachWord.forEach((word) => {
+    initialValue = applyFilterTo(word, initialValue);
+  });
+  return initialValue;
+}
+
+export function applyFilterTo(currentFilter: string, currentState: PokemonInfo[]): PokemonInfo[] {
+
+  // detect attr, filter value and operation
+  const [attr, op, value] = getFilterAttrsByInput(currentFilter);
+
+  if (!attr || !op || !value) return currentState;
+
+  switch (attr) {
+    case 'gen':
+      const genValue = parseInt(value);
+
+      if (isNaN(genValue)) return currentState;
+
+      if (op === ":") return currentState.filter(pokemon => pokemon.gen === genValue);
+      if (op === "!") return currentState.filter(pokemon => pokemon.gen !== genValue);
+      if (op === ">") return currentState.filter(pokemon => pokemon.gen > genValue);
+      if (op === "<") return currentState.filter(pokemon => pokemon.gen < genValue);
+
+      return currentState;
+    case 'type1':
+
+      if (op === ":") return currentState.filter(pokemon => pokemon.type1.toLowerCase() === value);
+      if (op === "!") return currentState.filter(pokemon => pokemon.type1.toLowerCase() !== value);
+
+      return currentState;
+    case 'type2':
+
+      if (op === ":") return currentState.filter(pokemon => pokemon.type2.toLowerCase() === value);
+      if (op === "!") return currentState.filter(pokemon => pokemon.type2.toLowerCase() !== value);
+
+      return currentState;
+    case 'type':
+
+      if (op === ":") return currentState.filter(pokemon => pokemon.type1.toLowerCase() === value || pokemon.type2.toLowerCase() === value);
+      if (op === "!") return currentState.filter(pokemon => pokemon.type1.toLowerCase() !== value && pokemon.type2.toLowerCase() !== value);
+
+      return currentState;
+    case 'height':
+
+      const heightValue = parseFloat(value);
+
+      if (isNaN(heightValue)) return currentState;
+
+      if (op === ":") return currentState.filter(pokemon => pokemon.height === heightValue);
+      if (op === "!") return currentState.filter(pokemon => pokemon.height !== heightValue);
+      if (op === ">") return currentState.filter(pokemon => pokemon.height > heightValue);
+      if (op === "<") return currentState.filter(pokemon => pokemon.height < heightValue);
+
+      return currentState;
+    case 'weight':
+
+      const weightValue = parseFloat(value);
+
+      if (isNaN(weightValue)) return currentState;
+
+      if (op === ":") return currentState.filter(pokemon => pokemon.weight === weightValue);
+      if (op === "!") return currentState.filter(pokemon => pokemon.weight !== weightValue);
+      if (op === ">") return currentState.filter(pokemon => pokemon.weight > weightValue);
+      if (op === "<") return currentState.filter(pokemon => pokemon.weight < weightValue);
+
+      return currentState;
+    default:
+      return currentState;
+  }
+}
+
+export function getFilterAttrsByInput(word: string): string[] {
+  const testEqual = word.split(':');
+
+  if (testEqual.length > 1) return [testEqual[0], ":", testEqual[1]];
+
+  const testGreater = word.split('>');
+
+  if (testGreater.length > 1) return [testGreater[0], ">", testGreater[1]];
+
+  const testLess = word.split('<');
+
+  if (testLess.length > 1) return [testLess[0], "<", testLess[1]];
+
+  const testDiff = word.split('!');
+
+  if (testDiff.length > 1) return [testDiff[0], "!", testDiff[1]];
+
+  return [''];
 }

@@ -1,6 +1,7 @@
 import create from "zustand";
 import { ZustandStore } from "@squirtle2/providers";
 import {
+  applyFilters,
   buildPokemonTypesList,
   clearLocalStorage,
   detectFilter,
@@ -36,7 +37,9 @@ export const usePokemonStore = create<ZustandStore>((set, get) => ({
     const theresFilter = detectFilter(currentInputValue);
 
     if (theresFilter) {
+      const filteredOptions = applyFilters(currentInputValue);
       set({
+        autoCompleteOptions: filteredOptions,
         filterIsShown: true,
         guessingInputValue: currentInputValue,
       });
